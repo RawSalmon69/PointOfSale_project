@@ -13,7 +13,10 @@ const PackageController = require('./controllers/PackageController');
 app.use(PackageController);
 const MemberController = require('./controllers/MemberController');
 app.use(MemberController);
+const ProductController = require('./controllers/ProductController');
+app.use(ProductController);
 
 app.listen(port, () => {
     console.log('Server listening on port', port)
 })   
+ 
