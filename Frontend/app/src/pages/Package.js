@@ -100,7 +100,7 @@ function Package() {
                                         Baht
                                     </div>
                                     <div className="mt-3">
-                                        <button onClick={e => choosePackage(item)} data-bs-toggle="modal" data-bs-target="#modalRegister" className="btn btn-primary">Subscibe</button>
+                                        <button onClick={e => choosePackage(item)} data-toggle="modal" data-target="#modalRegister" className="btn btn-primary">Subscibe</button>
                                     </div>
                                 </div>
                             </div>

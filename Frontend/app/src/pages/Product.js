@@ -8,6 +8,8 @@ import Modal from "../components/Modal";
 function Product() {
     const [product, setProduct] = useState({});
     const [products, setProducts] = useState([]);
+    const [productImage, setProductImage] = useState({});
+    const [productImages, setProductImages] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -108,7 +110,150 @@ function Product() {
         })
 
     }
+    const handleChangeFile = (files) => {
+        setProductImage(files[0]);
+    }
+    const handleUpload = () => {
+        Swal.fire({
+            title: 'Upload Image',
+            text: 'Are you sure?',
+            icon: 'question',
+            showCancelButton: true,
+            showConfirmButton: true,
+        }).then(async res => {
+            if (res.isConfirmed) {
+                try {
+                    const _config = {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem(config.token_name),
+                            'Content-Type': 'multipart/form-data',
+                        }
+                    }
+                    const formData = new FormData();
+                    formData.append('productImage', productImage);
+                    formData.append('productImageName', productImage.name);
+                    formData.append('productId', product.id);
 
+                    await axios.post(config.api_path + '/productImage/insert', formData, _config).then(res => {
+                        if (res.data.message === 'success') {
+                            Swal.fire({
+                                title: 'Image Uploaded',
+                                text: 'Image uploaded successfully',
+                                icon: 'success',
+                                timer: 2000
+                            })
+
+                            fetchDataProductImage({id: product.id});
+
+                            // const btns = document.getElementsByClassName('btnClose');
+                            // for (let i = 0; i < btns.length; i++) btns[i].click();
+                        }
+                    }).catch(err => {
+                        throw err.response.data;
+                    })
+                } catch (e) {
+                    Swal.fire({
+                        title: 'error',
+                        text: e.message,
+                        icon: 'error',
+                    })
+                }
+            }
+        })
+    }
+    const fetchDataProductImage = async (item) => {
+        try {
+            await axios.get(config.api_path + '/productImage/list/' + item.id, config.headers()).then(res => {
+                if (res.data.message === 'success') {
+                    setProductImages(res.data.results)
+                }
+            }).catch(err => {
+                throw err.response.data;
+            })
+        } catch (e) {
+            Swal.fire({
+                title: 'error',
+                text: e.message,
+                icon: 'error',
+            })
+        }
+    }
+    const handleChooseProduct = (item) => {
+        setProduct(item);
+        fetchDataProductImage(item);
+    }
+    const handleChooseMainImage = (item) => {
+        Swal.fire({
+            title: 'Set Main Image',
+            text: 'Are you sure?',
+            icon: 'question',
+            showCancelButton: true,
+            showConfirmButton: true,
+        }).then(async res => {
+            if (res.isConfirmed) {
+                try {
+                    const url = config.api_path + '/productImage/chooseMainImage/' + item.id + '/' + item.productId;
+                    await axios.get(url, config.headers()).then(res => {
+                        if (res.data.message === 'success') {
+                            fetchDataProductImage({
+                                id: item.productId
+                            });
+
+                            Swal.fire({
+                                title: 'Main Image Chosen',
+                                text: 'Main image chosen successfully',
+                                icon: 'success',
+                                timer: 2000
+                            })
+                        }
+                    }).catch(err => {
+                        throw err.response.data;
+                    })
+                } catch (e) {
+                    Swal.fire({
+                        title: 'error',
+                        text: e.message,
+                        icon: 'error',
+                    })
+                }
+            }
+        })
+    }
+    const handleDeleteProductImage = (item) => {
+        Swal.fire({
+            title: 'Delete Product Image',
+            text: 'Are you sure?',
+            icon: 'question',
+            showCancelButton: true,
+            showConfirmButton: true,
+        }).then(async res => {
+            if (res.isConfirmed) {
+                try {
+                    await axios.delete(config.api_path + '/productImage/delete/' + item.id, config.headers()).then(res => {
+                        if (res.data.message === 'success') {
+                           
+                            fetchDataProductImage({id: item.productId});
+                            
+                            Swal.fire({
+                                title: 'Image Deleted',
+                                text: 'Image deleted successfully',
+                                icon: 'success',
+                                timer: 2000
+                            })
+                        }
+                    }).catch(err => {
+                        throw err.response.data;
+                    })
+                } catch (e) {
+                    Swal.fire({
+                        title: 'error',
+                        text: e.message,
+                        icon: 'error',
+                    })
+                }
+            }
+        })
+    }
 
     return (
         <>
@@ -121,7 +266,7 @@ function Product() {
                         <button onClick={clearForm} data-toggle='modal' data-target='#modalProduct' className="btn btn-primary">
                             <i className="fa fa-plus mr-2"></i>Add Product
                         </button>
-                        <table className="mt-3 table table-bordered">
+                        <table className="mt-3 table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>
@@ -129,7 +274,7 @@ function Product() {
                                     <th>Base Cost</th>
                                     <th>Sale Price</th>
                                     <th>Details</th>
-                                    <th width='150px'></th>
+                                    <th width='170px'></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,8 +286,13 @@ function Product() {
                                         <td className="text-right">{parseInt(item.price).toLocaleString('th-TH')}</td>
                                         <td>{item.details}</td>
                                         <td className="text-center">
+
                                             <button onClick={e => setProduct(item)} data-toggle='modal' data-target='#modalProduct' className="btn btn-info mr-2">
                                                 <i className="fa fa-pencil"></i>
+                                            </button>
+
+                                            <button onClick={e => handleChooseProduct(item)} data-toggle='modal' data-target='#modalProductImage' className="btn btn-primary mr-2">
+                                                <i className="fa fa-image"></i>
                                             </button>
 
                                             <button onClick={e => handleDelete(item)} className="btn btn-danger">
@@ -193,6 +343,65 @@ function Product() {
                         </div>
                     </div>
                 </form>
+            </Modal>
+
+            <Modal id='modalProductImage' title='Product Image' modalSize='modal-lg'>
+                <div className="row">
+                    <div className="col-4">
+                        <div>Barcode</div>
+                        <input value={product.barcode} disabled className="form-control"></input>
+                    </div>
+                    <div className="col-8">
+                        <div>Product Name</div>
+                        <input value={product.name} disabled className="form-control"></input>
+                    </div>
+                    <div className="col-12 mt-2">
+                        <div>Details</div>
+                        <input value={product.details} disabled className="form-control"></input>
+                    </div>
+
+                    <div className="col-12 mt-2">
+                        <div>Choose Product Image</div>
+                        <input onChange={e => handleChangeFile(e.target.files)} type='file' name='imageName' className="form-control"></input>
+                    </div>
+                    {/* { productImage.name != undefined ? 
+                    <div className="mt-1">File: {productImage.name}</div> 
+                    : '' } */}
+
+                    <div className="mt-3">
+                        {productImage.name !== undefined ?
+                            <button onClick={handleUpload} className="btn btn-primary">
+                                <i className="fa fa-upload mr-2"></i>
+                                Upload and Save
+                            </button>
+                            : ''}
+                    </div>
+
+                    <hr className="divider mt-2"></hr>
+                    <div className="h5">Product Images</div>
+                    <div className="row mt-2">
+                        {productImages.length > 0 ? productImages.map(item =>
+                            <div className="col-3" key={item.id}>
+                                <div className="card">
+                                    <img className="card-img-top" src={config.api_path + '/uploads/' + item.imageName} width='100%' alt='' />
+                                    <div className="card-body text-center">
+                                        {item.isMain ?
+                                            <button className="btn btn-info mr-2">
+                                                <i className="fa fa-check mr-2"></i>
+                                                Main
+                                            </button>
+                                            :
+                                            <button onClick={e => handleChooseMainImage(item)} className="btn btn-outline-secondary mr-2">image</button>
+                                        }
+                                        <button onClick = {e => handleDeleteProductImage(item)} className="btn btn-danger">
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : ''}
+                    </div>
+                </div>
             </Modal>
         </>
     )

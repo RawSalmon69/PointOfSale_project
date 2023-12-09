@@ -9,12 +9,16 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/uploads', express.static('uploads')) //folder name
+
 const PackageController = require('./controllers/PackageController');
 app.use(PackageController);
 const MemberController = require('./controllers/MemberController');
 app.use(MemberController);
 const ProductController = require('./controllers/ProductController');
 app.use(ProductController);
+const ProductImageModel = require('./controllers/ProductImageController');
+app.use(ProductImageModel);
 
 app.listen(port, () => {
     console.log('Server listening on port', port)
