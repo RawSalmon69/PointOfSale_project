@@ -231,7 +231,7 @@ function Product() {
                 try {
                     await axios.delete(config.api_path + '/productImage/delete/' + item.id, config.headers()).then(res => {
                         if (res.data.message === 'success') {
-                           
+                            
                             fetchDataProductImage({id: item.productId});
                             
                             Swal.fire({

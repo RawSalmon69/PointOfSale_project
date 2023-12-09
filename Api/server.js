@@ -17,10 +17,11 @@ const MemberController = require('./controllers/MemberController');
 app.use(MemberController);
 const ProductController = require('./controllers/ProductController');
 app.use(ProductController);
-const ProductImageModel = require('./controllers/ProductImageController');
-app.use(ProductImageModel);
+const ProductImageController = require('./controllers/ProductImageController');
+app.use(ProductImageController);
+const UserController = require('./controllers/UserController');
+app.use(UserController);
 
 app.listen(port, () => {
     console.log('Server listening on port', port)
-})   
- 
+})

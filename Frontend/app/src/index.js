@@ -4,11 +4,14 @@ import reportWebVitals from './reportWebVitals';
 import Package from './pages/Package';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Product from './pages/Product';
+import User from './pages/User';
+
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Product from './pages/Product';
+
 
 const router = createBrowserRouter([
   {
@@ -27,6 +30,10 @@ const router = createBrowserRouter([
     path: "/product",
     element: <Product/>
   },
+  {
+    path: "/user",
+    element: <User/>
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
