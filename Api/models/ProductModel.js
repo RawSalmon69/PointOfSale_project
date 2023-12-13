@@ -28,6 +28,9 @@ const ProductModel = connect.define('product',{
         type: DataTypes.STRING(255),
         allowNull: true
     },
+    userId: {
+        type: DataTypes.BIGINT,
+    }
 })
 ProductModel.sync({alter: true});
 

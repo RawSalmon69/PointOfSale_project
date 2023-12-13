@@ -161,7 +161,7 @@ function User() {
                                 <tr>
                                     <th>Name</th>
                                     <th>Username</th>
-                                    <th>Password</th>
+                                    {/* <th>Password</th> */}
                                     <th>Privilege</th>
                                     <th width="150px"></th>
                                 </tr>
@@ -171,7 +171,7 @@ function User() {
                                     <tr>
                                         <td>{item.name}</td>
                                         <td>{item.usr}</td>
-                                        <td>{item.pwd}</td>
+                                        {/* <td>{item.pwd}</td> */}
                                         <td>{item.level}</td>
                                         <td className="text-center">
                                             <button onClick={e => setUser(item)} data-toggle='modal' data-target='#modalUser' className="btn btn-info mr-2">

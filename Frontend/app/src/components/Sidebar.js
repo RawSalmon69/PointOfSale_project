@@ -13,12 +13,12 @@ function Sidebar() {
 
     const fetchData = async () => {
         try {
-            axios.get(config.api_path +'/member/info', config.headers()).then(res=>{
-                if(res.data.message==='success'){
+            axios.get(config.api_path + '/member/info', config.headers()).then(res => {
+                if (res.data.message === 'success') {
                     setMemberName(res.data.result.name);
                     setPackageName(res.data.result.package.name);
                 }
-            }).catch(err=>{
+            }).catch(err => {
                 throw err.response.data;
             })
         } catch (e) {
@@ -32,51 +32,64 @@ function Sidebar() {
 
     return (
         <>
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
-                <a href="http://localhost:3001/" class="brand-link">
-                    <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style={{ opacity: .8 }} />
-                    <span class="brand-text font-weight-light">RawS: POS on Cloud</span>
+            <aside className="main-sidebar sidebar-dark-primary elevation-4">
+                <a href="http://localhost:3001/" className="brand-link">
+                    <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: .8 }} />
+                    <span className="brand-text font-weight-light">RawS: POS on Cloud</span>
                 </a>
 
-                <div class="sidebar">
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image mt-2">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
+                <div className="sidebar">
+                    <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div className="image mt-2">
+                            <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
                         </div>
-                        <div class="info text-white">
+                        <div className="info text-white">
                             <a>
                                 <h6 className='text-bold'>{memberName}</h6>
                                 <div>Package: {packageName}</div>
-                                </a>
+                            </a>
                         </div>
                     </div>
 
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-item">
-                                <a href="pages/widgets.html" class="nav-link">
-                                    <i class="nav-icon fas fa-th"></i>
+                    <nav className="mt-2">
+                        <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                            <li className="nav-item">
+                                <a href="pages/widgets.html" className="nav-link">
+                                    <i className="nav-icon fas fa-th"></i>
                                     <p>
                                         Dashboard
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <Link to="/product" class="nav-link">
-                                    <i class="nav-icon fas fa-box"></i>
+
+                            <li className="nav-item">
+                                <Link to="/sale" className="nav-link">
+                                    <i className="nav-icon fas fa-dollar-sign"></i>
+                                    <p>
+                                        Sale
+                                    </p>
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link to="/product" className="nav-link">
+                                    <i className="nav-icon fas fa-box"></i>
                                     <p>
                                         Products
                                     </p>
                                 </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link to="/user" class="nav-link">
-                                    <i class="nav-icon fas fa-user"></i>
+
+                            <li className="nav-item">
+                                <Link to="/user" className="nav-link">
+                                    <i className="nav-icon fas fa-user"></i>
                                     <p>
                                         User
                                     </p>
                                 </Link>
                             </li>
+
                         </ul>
                     </nav>
                 </div>

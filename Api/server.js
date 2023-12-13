@@ -21,6 +21,8 @@ const ProductImageController = require('./controllers/ProductImageController');
 app.use(ProductImageController);
 const UserController = require('./controllers/UserController');
 app.use(UserController);
+const BillSaleController = require('./controllers/BillSaleController');
+app.use(BillSaleController);
 
 app.listen(port, () => {
     console.log('Server listening on port', port)

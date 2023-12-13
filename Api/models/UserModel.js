@@ -22,6 +22,9 @@ const UserModel = conn.define('user', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    userId: {
+        type: DataTypes.BIGINT,
+    }
 })
 
 UserModel.sync({alter: true});

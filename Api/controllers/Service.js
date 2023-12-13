@@ -23,5 +23,11 @@ module.exports = {
         res.statusCode = 401;
         return res.send('Authorization failed');
         }
+    },
+    getMemberId: (req) => {
+        const jwt = require('jsonwebtoken');
+        const token = req.headers.authorization.replace('Bearer ', '');
+        const payload = jwt.decode(token);
+        return payload.id;
     }
 }

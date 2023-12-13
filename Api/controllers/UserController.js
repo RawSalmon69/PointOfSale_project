@@ -6,6 +6,10 @@ const UserModel = require('../models/UserModel');
 app.get('/user/list', Service.isLogin, async (req, res) => {
     try {
         const results = await UserModel.findAll({
+            where:{
+                userId: Service.getMemberId(req)
+            },
+            attributes: ['id','level','name','usr','userId'],
             order: [['id', 'DESC']]
         });
         res.statusCode = 200;
@@ -17,8 +21,10 @@ app.get('/user/list', Service.isLogin, async (req, res) => {
 })
 app.post('/user/insert', Service.isLogin, async (req, res) => {
     try {
-        await UserModel.create(req.body);
+        let payload=req.body;
+        payload.userId = Service.getMemberId(req);
 
+        await UserModel.create(req.body);
         res.statusCode = 200;
         return res.send({ message: 'success' });
     } catch (e) {
@@ -43,7 +49,10 @@ app.delete('/user/delete/:id', Service.isLogin, async (req, res) => {
 })
 app.post('/user/edit', Service.isLogin, async (req, res) => {
     try {
-        await UserModel.update(req.body, {
+        let payload = req.body;
+        payload.userId = Service.getMemberId(req);
+
+        await UserModel.update(payload, {
             where: {
                 id: req.body.id
             }

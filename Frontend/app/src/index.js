@@ -11,6 +11,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Sale from './pages/Sale';
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <User/>
+  },
+  {
+    path: "/sale",
+    element: <Sale/>
   }
 ]);
 
