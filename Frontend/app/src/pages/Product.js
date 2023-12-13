@@ -108,7 +108,6 @@ function Product() {
                 }
             }
         })
-
     }
     const handleChangeFile = (files) => {
         setProductImage(files[0]);
@@ -143,7 +142,7 @@ function Product() {
                                 timer: 2000
                             })
 
-                            fetchDataProductImage({id: product.id});
+                            fetchDataProductImage({ id: product.id });
 
                             // const btns = document.getElementsByClassName('btnClose');
                             // for (let i = 0; i < btns.length; i++) btns[i].click();
@@ -231,9 +230,9 @@ function Product() {
                 try {
                     await axios.delete(config.api_path + '/productImage/delete/' + item.id, config.headers()).then(res => {
                         if (res.data.message === 'success') {
-                            
-                            fetchDataProductImage({id: item.productId});
-                            
+
+                            fetchDataProductImage({ id: item.productId });
+
                             Swal.fire({
                                 title: 'Image Deleted',
                                 text: 'Image deleted successfully',
@@ -393,7 +392,7 @@ function Product() {
                                             :
                                             <button onClick={e => handleChooseMainImage(item)} className="btn btn-outline-secondary mr-2">image</button>
                                         }
-                                        <button onClick = {e => handleDeleteProductImage(item)} className="btn btn-danger">
+                                        <button onClick={e => handleDeleteProductImage(item)} className="btn btn-danger">
                                             <i className="fa fa-times"></i>
                                         </button>
                                     </div>
