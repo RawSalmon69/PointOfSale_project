@@ -51,16 +51,16 @@ function Login() {
             <div className="container">
                 <div className="card mt-5">
                     <h5 className="card-header">
-                        <div className="card-title mt-1">Login to POS</div>
+                        <div className="card-title mt-1 h5">Login to POS</div>
                     </h5>
                     <div className="card-body">
                         <div>
-                            <label>Phone</label>
+                            <span>Phone</span>
                             <input onChange={e=>setPhone(e.target.value)}  className="form-control" />
                         </div>
 
                         <div className="mt-3">
-                            <label>Password</label>
+                            <span>Password</span>
                             <input  onChange={e=>setPass(e.target.value)} type="password" className="form-control" />
                         </div>
 

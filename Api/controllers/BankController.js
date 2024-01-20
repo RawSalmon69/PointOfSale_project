@@ -5,10 +5,8 @@ const BankModel = require('../models/BankModel');
 
 app.get('/bank/list', async (req, res) => {
     try {
-        const results = await BankModelModel.findAll({
-            order: [
-                ['id', 'ASC'],
-            ],
+        const results = await BankModel.findAll({
+
         });
         res.statusCode = 200;
         return res.send({ results: results });

@@ -82,7 +82,7 @@ function Package() {
             <div className="container mt-3">
                 <div className="h2 text-black">Raws : Point Of Sale on Cloud</div>
 
-                <div className="h5">Packages Available</div>
+                <div className="h5">Monthly Packages Available</div>
                 <div className="row">
                     {packages.map(item =>
                         <div className="col-4">
@@ -97,7 +97,7 @@ function Package() {
                                         {parseInt(item.price).toLocaleString('th-TH')}
                                         &nbsp;
                                         {/* ช่องว่าง */}
-                                        Baht
+                                        ฿
                                     </div>
                                     <div className="mt-3">
                                         <button onClick={e => choosePackage(item)} data-toggle="modal" data-target="#modalRegister" className="btn btn-primary">Subscibe</button>

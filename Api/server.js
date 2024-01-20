@@ -25,6 +25,10 @@ const BillSaleController = require('./controllers/BillSaleController');
 app.use(BillSaleController);
 const StockController = require('./controllers/StockController');
 app.use(StockController);
+const BankController = require('./controllers/BankController');
+app.use(BankController);
+const AdminController = require('./controllers/AdminController');
+app.use(AdminController);
 
 app.listen(port, () => {
     console.log('Server listening on port', port)

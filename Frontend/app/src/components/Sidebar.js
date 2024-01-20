@@ -11,6 +11,8 @@ function Sidebar() {
     const [packages, setPackages] = useState([]);
     const [totalBill, setTotalBill] = useState(0);
     const [billAmount, setBillAmount] = useState(0);
+    const [banks, setBanks] = useState([]);
+    const [choosePackage, setChoosePackage] = useState({});
 
     useEffect(() => {
         fetchData();
@@ -61,6 +63,26 @@ function Sidebar() {
                 if (res.data.results.length > 0) {
                     setPackages(res.data.results)
                 }
+            }).catch(err => {
+                throw err.response.data;
+            })
+        } catch (e) {
+            Swal.fire({
+                title: "error",
+                message: e.message,
+                icon: 'error'
+            })
+        }
+    }
+
+    const fetchDataBank = async () => {
+        try {
+            await axios.get(config.api_path + '/bank/list').then(res => {
+                if (res.data.results.length > 0) {
+                    setBanks(res.data.results)
+                }
+            }).catch(err => {
+                throw err.response.data;
             })
         } catch (e) {
             Swal.fire({
@@ -80,9 +102,51 @@ function Sidebar() {
                 Subscibed</button>;
         } else {
             return <button
-                data-toggle="modal" data-target="#modalRegister"
+                data-toggle="modal" data-target="#modalBank"
+                onClick={e => handleChoosePackage(item)}
                 className="btn btn-primary">Subscibe</button>;
         }
+    }
+
+    const handleChoosePackage = (item) => {
+        setChoosePackage(item);
+        if (banks.length == 0) fetchDataBank();
+    }
+
+    const handleChangePackage = () => {
+        //เพิ่ม Check ว่ามี package change กำลังรอคอนเฟิร์มอยู่ไหม กันสแปม DB
+        Swal.fire({
+            title: 'Confirm Package Change',
+            text: 'Are you sure?',
+            icon: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true
+        }).then(async res => {
+            if (res.isConfirmed) {
+                try {
+                    await axios.get(config.api_path + '/packages/changePackage/' + choosePackage.id, config.headers()).then(res => {
+                        if (res.data.message === 'success') {
+                            Swal.fire({
+                                title: "Request Sent",
+                                message: "Package change request sent",
+                                icon: 'success',
+                                timer: 2000
+                            })
+                        }
+                        const btns = document.getElementsByClassName('btnClose');
+                        for(let i=0; i< btns.length; i++) btns[i].click();
+                    }).catch(err => {
+                        throw err.response.data;
+                    })
+                } catch (e) {
+                    Swal.fire({
+                        title: "error",
+                        message: e.message,
+                        icon: 'error'
+                    })
+                }
+            }
+        })
     }
 
     return (
@@ -140,7 +204,7 @@ function Sidebar() {
 
                             <li className="nav-item">
                                 <a href="pages/widgets.html" className="nav-link">
-                                    <i className="nav-icon fas fa-th"></i>
+                                    <i className="nav-icon fas fa-server"></i>
                                     <p>
                                         Dashboard
                                     </p>
@@ -230,7 +294,7 @@ function Sidebar() {
                                     {parseInt(item.price).toLocaleString('th-TH')}
                                     &nbsp;
                                     {/* ช่องว่าง */}
-                                    Baht / Month
+                                    ฿ / Month
                                 </div>
                                 <div className="mt-2 text-center pb-3">
                                     {renderButton(item)}
@@ -238,6 +302,44 @@ function Sidebar() {
                             </div>
                         </div>
                     ) : ''}
+                </div>
+            </Modal>
+
+            <Modal id="modalBank" title="Payment Options" modalSize="modal-lg">
+                <div className='mb-2'>
+                    <strong className='text-primary'>Chosen Package </strong>- <strong className='text-success'>{choosePackage.name}</strong> <br></br>
+                    <strong className='text-primary'>Total Due </strong> - <strong className='text-success'>{parseInt(choosePackage.price).toLocaleString('th-TH')}</strong>  ฿
+                </div>
+                <table className="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Bank</th>
+                            <th>Account Number</th>
+                            <th>Account Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {banks.length > 0 ? banks.map(item =>
+                            <tr>
+                                <td>{item.bankType}</td>
+                                <td>{item.bankCode}</td>
+                                <td>{item.bankName}</td>
+                            </tr>
+                        ) : ''}
+                    </tbody>
+                </table>
+
+                <div className='alert alert-warning'>
+                    <i className='fa fa-info-circle mr-2 text-blue'></i>
+                    After successful transaction - please send your username and attach the payment slip to
+                    <br></br><strong>Email :</strong> phanthawasjira@gmail.com</div>
+                <div className="text-center">
+                    <button
+                        onClick={handleChangePackage}
+                        className='btn btn-primary'>
+                        <i className='fa fa-check mr-2'></i>
+                        Confirm Subscription
+                    </button>
                 </div>
             </Modal>
 

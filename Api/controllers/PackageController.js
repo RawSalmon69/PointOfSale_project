@@ -57,5 +57,22 @@ app.get('/packages/countBill', Service.isLogin, async( req, res) => {
         return res.send({message: e.message});
     }
 })
+
+app.get('/packages/changePackage/:id', Service.isLogin, async( req, res) => {
+    try{
+        const ChangePackageModel = require('../models/ChangePackageModel');
+        const payload = {
+            packageId: req.params.id,
+            userId: Service.getMemberId(req)
+        }
+        const result = await ChangePackageModel.create(payload)
+
+        res.statusCode = 200;
+        return res.send({message: 'success', result: result})
+    }catch (e){
+        res.statusCode = 500;
+        return res.send({message: e.message});
+    }
+})
 MemberModel.sync({alter: true}); //if a table is created, delete this
 module.exports = app;
