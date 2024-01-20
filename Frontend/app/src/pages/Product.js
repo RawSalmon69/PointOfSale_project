@@ -69,6 +69,8 @@ function Product() {
                     handleClose();
 
                 }
+            }).catch(err => {
+                throw err.response.data;
             })
         } catch (e) {
             Swal.fire({
@@ -95,6 +97,8 @@ function Product() {
                                 text: 'Product deleted successfully',
                                 icon: 'success',
                                 timer: 2000
+                            }).catch(err => {
+                                throw err.response.data;
                             })
                             fetchData();
                         }
@@ -259,13 +263,13 @@ function Product() {
             <Template>
                 <div className="card">
                     <div className="card-header">
-                        <div className="card-title">Products</div>
+                        <div className="card-title h5">Products</div>
                     </div>
                     <div className="card-body">
                         <button onClick={clearForm} data-toggle='modal' data-target='#modalProduct' className="btn btn-primary">
                             <i className="fa fa-plus mr-2"></i>Add Product
                         </button>
-                        <table className="mt-3 table table-bordered table-striped">
+                        <table className="mt-3 table table-bordered ">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>

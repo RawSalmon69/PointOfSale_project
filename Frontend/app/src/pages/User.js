@@ -148,7 +148,7 @@ function User() {
             <Template>
                 <div className="card">
                     <div className="card-header">
-                        <div className="card-title">User</div>
+                        <div className="card-title h5">User</div>
                     </div>
                     <div className="card-body">
                         <button onClick={clearForm} className="btn btn-primary" data-toggle="modal" data-target="#modalUser">

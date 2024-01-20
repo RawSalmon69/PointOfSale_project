@@ -1,3 +1,7 @@
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
@@ -6,12 +10,11 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Product from './pages/Product';
 import User from './pages/User';
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 import Sale from './pages/Sale';
+import BillSales from './pages/BillSales';
+import SumSalePerDay from "./pages/SumSalePerDay";
+import Stock from "./pages/Stock";
+import ReportStock from "./pages/ReportStock";
 
 
 const router = createBrowserRouter([
@@ -38,7 +41,23 @@ const router = createBrowserRouter([
   {
     path: "/sale",
     element: <Sale/>
-  }
+  },
+  {
+    path: "/billSales",
+    element: <BillSales/>
+  },
+  {
+    path: "/sumSalePerDay",
+    element: <SumSalePerDay/>
+  },
+  {
+    path: "/stock",
+    element: <Stock/>
+  },
+  {
+    path: "/reportstock",
+    element: <ReportStock/>
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -47,4 +66,3 @@ root.render(
 );
 
 reportWebVitals();
- 

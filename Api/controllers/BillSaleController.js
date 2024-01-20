@@ -5,7 +5,8 @@ require('dotenv').config();
 const Service = require('./Service');
 
 const BillSaleModel = require('../models/BillSaleModel');
-const BillSaleDetailModel = require('../models/BillSaleDetailModel')
+const BillSaleDetailModel = require('../models/BillSaleDetailModel');
+const sequelize = require('../connect');
 
 app.get('/billSale/openBill', Service.isLogin, async (req, res) => {
     try {
@@ -231,5 +232,95 @@ app.get('/billSale/billToday', Service.isLogin, async (req, res) => {
         return res.send({ message: e.message });
     }
 })
+app.get('/billSale/list', Service.isLogin, async (req, res) => {
+    try {
+        const BillSaleDetailModel = require('../models/BillSaleDetailModel');
+        const ProductModel = require('../models/ProductModel');
 
+        BillSaleModel.hasMany(BillSaleDetailModel);
+        BillSaleDetailModel.belongsTo(ProductModel);
+
+        const results = await BillSaleModel.findAll({
+            where: {
+                status: 'closed',
+                userId: Service.getMemberId(req),
+            },
+            order: [['id', 'DESC']],
+            include: {
+                model: BillSaleDetailModel,
+                attributes: ['qty', 'price'],
+                include: {
+                    model: ProductModel,
+                    attributes: ['barcode', 'name']
+                }
+            }
+        })
+
+        res.statusCode = 200;
+        return res.send({ message: 'success', results: results });
+    } catch (e) {
+        res.statusCode = 500;
+        return res.send({ message: e.message });
+    }
+})
+app.get('/billSale/listByYearAndMonth/:year/:month', Service.isLogin, async (req, res) => {
+    try {
+        const BillSaleDetailModel = require('../models/BillSaleDetailModel');
+        const ProductModel = require('../models/ProductModel');
+
+        BillSaleModel.hasMany(BillSaleDetailModel);
+        BillSaleDetailModel.belongsTo(ProductModel);
+
+        let arr = [];
+        let y = req.params.year;
+        let m = req.params.month;
+        let daysInMonth = new Date(y, m, 0).getDate();
+
+        const { Sequelize } = require('sequelize');
+        const Op = Sequelize.Op;
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const results = await BillSaleModel.findAll({
+                where: {
+                    [Op.and]: [
+                        Sequelize.fn('EXTRACT(YEAR from "billSaleDetails"."updatedAt") = ', y),
+                        Sequelize.fn('EXTRACT(MONTH from "billSaleDetails"."updatedAt") = ', m),
+                        Sequelize.fn('EXTRACT(DAY from "billSaleDetails"."updatedAt") = ', i),
+                    ],
+                    userId: Service.getMemberId(req)
+                },
+                include: {
+                    model: BillSaleDetailModel,
+                    include: {
+                        model: ProductModel
+                    }
+                }
+            });
+
+            let sum = 0;
+
+            for(let j = 0; j < results.length; j++){
+                const result = results[j];
+
+                for(let k=0; k < result.billSaleDetails.length; k++){
+                    const item = result.billSaleDetails[k];
+
+                    sum += parseInt(item.qty) * parseInt(item.price);
+                }
+            }
+
+            arr.push({
+                day: i,
+                results: results,
+                sum: sum,
+            });
+            
+        }
+        res.statusCode = 200;
+        return res.send({ message: 'success', results: arr });
+    } catch (e) {
+        res.statusCode = 500;
+        return res.send({ message: e.message });
+    }
+})
 module.exports = app;

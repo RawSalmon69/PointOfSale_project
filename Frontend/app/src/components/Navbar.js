@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from "./Modal";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function Navbar() {
     const [memberName, setMemberName] = useState();
@@ -54,17 +55,17 @@ function Navbar() {
 
     return (
         <>
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
 
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ml-2">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="index3.html" class="nav-link">Home</a>
+                        <Link to="/Home" class="nav-link">Home</Link>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="#" class="nav-link">Contact</a>
+                    <Link to="/Home" class="nav-link">Contact</Link>
                     </li>
                 </ul>
 

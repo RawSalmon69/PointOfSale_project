@@ -29,6 +29,8 @@ function Sale() {
                 if (res.data.message === 'success') {
                     setBillSale(res.data.result);
                 }
+            }).catch(err => {
+                throw err.response.data;
             })
 
         } catch (e) {
@@ -46,9 +48,9 @@ function Sale() {
                 if (res.data.message === 'success') {
                     setProducts(res.data.results);
                 }
-            }).catch[(err) => {
+            }).catch(err => {
                 throw err.response.data;
-            }]
+            })
         } catch (e) {
             Swal.fire({
                 title: 'error',
@@ -64,6 +66,8 @@ function Sale() {
                 if (res.data.message === 'success') {
                     fetchBillSaleDetail();
                 }
+            }).catch(err => {
+                throw err.response.data;
             })
         } catch (e) {
             Swal.fire({
@@ -83,6 +87,8 @@ function Sale() {
                 } else {
                     setTotalPrice(0);
                 }
+            }).catch(err => {
+                throw err.response.data;
             })
         } catch (e) {
             Swal.fire({
@@ -127,6 +133,8 @@ function Sale() {
                             })
                             fetchBillSaleDetail();
                         }
+                    }).catch(err => {
+                        throw err.response.data;
                     })
                 } catch (e) {
                     Swal.fire({
@@ -149,6 +157,8 @@ function Sale() {
                         btns[i].click();
                     }
                 }
+            }).catch(err => {
+                throw err.response.data;
             })
         } catch (e) {
             Swal.fire({
@@ -186,6 +196,8 @@ function Sale() {
                                 btns[i].click();
                             }
                         }
+                    }).catch(err => {
+                        throw err.response.data;
                     })
                 } catch (e) {
                     Swal.fire({
@@ -204,9 +216,9 @@ function Sale() {
                 if (res.data.message === 'success') {
                     setLastBill(res.data.result[0]);
                 }
-            }).catch[(err) => {
+            }).catch(err => {
                 throw err.response.data;
-            }]
+            })
         } catch (e) {
             Swal.fire({
                 title: 'error',
@@ -222,9 +234,9 @@ function Sale() {
                 if (res.data.message === 'success') {
                     setBillToday(res.data.results);
                 }
-            }).catch[(err) => {
+            }).catch(err => {
                 throw err.response.data;
-            }]
+            })
         } catch (e) {
             Swal.fire({
                 title: 'error',
@@ -238,7 +250,7 @@ function Sale() {
         <Template>
             <div className="card">
                 <div className="card-header">
-                    <div className="card-title float-start">Sale</div>
+                    <div className="card-title h5 float-start">Sale</div>
                     <div className="float-end">
                         <button onClick={handleLastBill} data-toggle="modal" data-target="#modalLastBill" className="btn btn-primary text-white mr-2">
                             <i className="fa fa-file-alt mr-2" />
@@ -394,7 +406,7 @@ function Sale() {
         </Modal>
 
         <Modal id="modalLastBill" title="Last Bill" modalSize="modal-lg">
-            <table className="table table-bordered table-striped">
+            <table className="table table-bordered ">
                 <thead>
                     <tr>
                         <th>Barcode</th>
@@ -419,11 +431,11 @@ function Sale() {
         </Modal>
 
         <Modal id="modalBillToday" title="Today's Bills" modalSize="modal-lg">
-            <table className="table table-bordered table-striped">
+            <table className="table table-bordered ">
                 <thead>
                     <tr>
                         <th className="text-center" width="120px">-----</th>
-                        <th>Bill ID</th>
+                        <th width="100px">Bill ID</th>
                         <th>Sale Time</th>
                     </tr>
                 </thead>
@@ -445,7 +457,7 @@ function Sale() {
         </Modal>
 
         <Modal id="modalBillSaleDetail" title="Bill Details" modalSize="modal-lg">
-            <table className="table table-bordered table-striped">
+            <table className="table table-bordered ">
                 <thead>
                     <tr>
                         <th>Barcode</th>

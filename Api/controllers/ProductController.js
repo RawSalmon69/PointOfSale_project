@@ -33,7 +33,8 @@ app.delete('/product/delete/:id', Service.isLogin, async (req, res) => {
     try {
         const result = await ProductModel.destroy({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: Service.getMemberId(req)
             }
         })
 
@@ -50,7 +51,8 @@ app.post('/product/update', Service.isLogin, async (req, res) => {
         payload.userId = Service.getMemberId(req);
         const result = await ProductModel.update(payload, {
             where: {
-                id: req.body.id
+                id: req.body.id,
+                userId: Service.getMemberId(req)
             }
         });
         res.send({ message: 'success', result: result });
