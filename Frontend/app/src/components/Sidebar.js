@@ -10,6 +10,7 @@ function Sidebar() {
     const [packageName, setPackageName] = useState();
     const [packages, setPackages] = useState([]);
     const [totalBill, setTotalBill] = useState(0);
+    const [billAmount, setBillAmount] = useState(0);
 
     useEffect(() => {
         fetchData();
@@ -22,6 +23,7 @@ function Sidebar() {
                 if (res.data.message === 'success') {
                     setMemberName(res.data.result.name);
                     setPackageName(res.data.result.package.name);
+                    setBillAmount(res.data.result.package.bill_amount);
                 }
             }).catch(err => {
                 throw err.response.data;
@@ -85,7 +87,7 @@ function Sidebar() {
 
     return (
         <>
-            <aside className="main-sidebar sidebar-dark-primary elevation-4">
+            <aside className="main-sidebar sidebar-dark-primary elevation-2">
                 <a href="http://localhost:3001/" className="brand-link">
                     <img src="dist/img/bdragon.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: .8 }} />
                     <span className="brand-text font-weight-light">RawS: POS on Cloud</span>
@@ -104,7 +106,7 @@ function Sidebar() {
                                     </div>
                                 </a>
                             </div>
-                            <div className='col-4'>
+                            <div className='info col-4'>
                                 <button
                                     data-toggle="modal" data-target="#modalPackage"
                                     onClick={fetchPackages}
@@ -112,12 +114,19 @@ function Sidebar() {
                                     <i className='fa fa-arrow-up'></i>
                                 </button>
                             </div>
-                            <div className='col-12'>
-                                <div className='text-white ms-2'>
-                                    {totalBill} / 100
+                            <div className='info col-12'>
+                                <div className='text-white ml-2 '>
+                                    {totalBill.toLocaleString('th-TH')} / {billAmount.toLocaleString('th-TH')}
+                                    <span className='text-warning fw-bold ml-1'> Bills</span>
                                 </div>
-                                <div className="progress mt-2" role="progressbar" style={{ height: "6px" }} aria-label="Example Animated striped " aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                    <div className="progress-bar bg-success" style={{ width: '75%' }}></div>
+                            </div>
+                            <div className='col-12'>
+                                <div
+                                    className="progress mt-2" role="progressbar"
+                                    style={{ height: "6px" }} aria-label="Example Animated striped"
+                                    aria-valuenow={totalBill * 100 / billAmount} aria-valuemin="0" aria-valuemax="100"
+                                >
+                                    <div className="progress-bar bg-success" style={{ width: (totalBill * 100 / billAmount) + '%' }}></div>
                                 </div>
                             </div>
                         </div>

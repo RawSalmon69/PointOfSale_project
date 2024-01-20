@@ -39,7 +39,7 @@ app.get('/member/info', Service.isLogin, async (req, res) => {
             include: [
                 {
                     model: PackageModel,
-                    attributes: ['name']
+                    attributes: ['name', 'bill_amount']
                 }
             ]
         })

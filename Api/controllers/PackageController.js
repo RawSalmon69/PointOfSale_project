@@ -5,6 +5,7 @@ const Service = require('./Service');
 const PackageModel = require('../models/PackageModel');
 const MemberModel = require('../models/MemberModel');
 const BillSaleModel = require('../models/BillSaleModel');
+const BankModel = require('../models/BankModel');
 
 app.get('/packages/list', async (req, res) => {
     try {
@@ -34,10 +35,17 @@ app.post('/packages/memberRegister', async(req,res)=>{
 
 app.get('/packages/countBill', Service.isLogin, async( req, res) => {
     try{
+        const { Sequelize } = require('sequelize');
+        const Op = Sequelize.Op;
         const BillSaleModel = require('../models/BillSaleModel');
-
+        const myDate = new Date();
+        const m = myDate.getMonth() + 1;
+        
         const results = await BillSaleModel.findAll({
             where:{
+                [Op.and]: [
+                    Sequelize.fn('EXTRACT(MONTH from "updatedAt") = ', m),
+                ],
                 userId: Service.getMemberId(req)
             }
         });
