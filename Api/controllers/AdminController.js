@@ -6,7 +6,7 @@ const AdminModel = require('../models/AdminModel');
 
 app.post('/admin/signin', async (req, res) => {
     try {
-        const admin = await AdminModel.findOne({
+        const admin = await AdminModel.findAll({
             where: {
                 usr: req.body.usr,
                 pwd: req.body.pwd
