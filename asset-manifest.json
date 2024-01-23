@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/PointOfSale_project/static/js/main.af210460.js",
+    "static/js/787.0f8d78ff.chunk.js": "/PointOfSale_project/static/js/787.0f8d78ff.chunk.js",
+    "index.html": "/PointOfSale_project/index.html",
+    "main.af210460.js.map": "/PointOfSale_project/static/js/main.af210460.js.map",
+    "787.0f8d78ff.chunk.js.map": "/PointOfSale_project/static/js/787.0f8d78ff.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.af210460.js"
+  ]
+}
