@@ -149,6 +149,16 @@ function Sidebar() {
         })
     }
 
+    const renderProgress = () =>{
+        if((totalBill * 100 / billAmount) > 66) {
+            return <div className="progress-bar bg-danger" style={{ width: (totalBill * 100 / billAmount) + '%' }}></div>
+        }
+        if((totalBill * 100 / billAmount) > 33) {
+            return <div className="progress-bar bg-warning" style={{ width: (totalBill * 100 / billAmount) + '%' }}></div>
+        }
+        return <div className="progress-bar bg-success" style={{ width: (totalBill * 100 / billAmount) + '%' }}></div>
+    }
+
     return (
         <>
             <aside className="main-sidebar sidebar-dark-primary elevation-2">
@@ -190,7 +200,7 @@ function Sidebar() {
                                     style={{ height: "6px" }} aria-label="Example Animated striped"
                                     aria-valuenow={totalBill * 100 / billAmount} aria-valuemin="0" aria-valuemax="100"
                                 >
-                                    <div className="progress-bar bg-success" style={{ width: (totalBill * 100 / billAmount) + '%' }}></div>
+                                {renderProgress()}
                                 </div>
                             </div>
                         </div>

@@ -190,6 +190,7 @@ function Sale() {
 
                             openBill();
                             fetchBillSaleDetail();
+                            fetchBillSaleDetail();
 
                             const btns = document.getElementsByClassName('btnClose');
                             for (let i = 0; i < btns.length; i++) {
@@ -289,6 +290,29 @@ function Sale() {
 
                                     </div>) : ''}
                             </div>
+                            <table className="table table-bordered mt-3">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th width="180px">Barcode</th>
+                                        <th>Product</th>
+                                        <th width="180px">Price</th>
+                                        <th width="180px">Amount</th>
+                                        <th width="250px">Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {currentBill != {} && currentBill.billSaleDetails != undefined ? currentBill.billSaleDetails.map(item =>
+                                        <tr>
+                                            <td>{item.product.barcode}</td>
+                                            <td>{item.product.name}</td>
+                                            <td>{parseInt(item.price).toLocaleString('th-TH')}</td>
+                                            <td>{item.qty}</td>
+                                            <td>{(item.qty * item.price).toLocaleString('th-TH')} THB</td>
+                                        </tr>
+                                    ) : ''}
+                                </tbody>
+                            </table>
                         </div>
 
                         <div className="col-3 mt-2">
@@ -340,22 +364,7 @@ function Sale() {
                     </div> */}
 
 
-                    <table className="table table-bordered table-striped mt-3">
-                        <thead className="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Barcode</th>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                                <th width='100px'></th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </Template>

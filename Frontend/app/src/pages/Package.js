@@ -15,6 +15,7 @@ function Package() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // document.body.style.backgroundColor = "#2c2c2c";
         fetchData();
     }, [])
 
@@ -60,7 +61,7 @@ function Package() {
                                 timer: 2000
                             })
                             document.getElementById('btnModalClose').click();
-                        
+
                             navigate('/login');
                         }
                     }).catch(err => {
@@ -70,9 +71,9 @@ function Package() {
             });
         } catch (e) {
             Swal.fire({
-                title:"error",
+                title: "error",
                 message: e.message,
-                icon :'error'
+                icon: 'error'
             })
         }
     }
@@ -80,7 +81,11 @@ function Package() {
     return (
         <>
             <div className="container mt-3">
-                <div className="h2 text-black">Raws : Point Of Sale on Cloud</div>
+                <div className="h2">Raws : Point Of Sale on Cloud
+                    <button className="btn btn-warning mt-3 float-right" onClick={e => navigate('/login')}>
+                        Sign in 
+                        {/* <i className="fa fa-arrow-right" style={{ marginLeft: '10px' }} /> */}
+                    </button></div>
 
                 <div className="h5">Monthly Packages Available</div>
                 <div className="row">
@@ -90,7 +95,7 @@ function Package() {
                                 <div className="card-body text-center">
                                     <div className="h4 text-success">{item.name}</div>
                                     <div className="h5">
-                                        {item.bill_amount}
+                                        {parseInt(item.bill_amount).toLocaleString('th-TH')}
                                         <br />Bills / Month
                                     </div>
                                     <div className="h5 text-secondary">
@@ -107,6 +112,11 @@ function Package() {
                         </div>
                     )}
                 </div>
+                {/* <div className="text-center">
+                    <button className="btn btn-primary mt-3" onClick={e => navigate('/login')}>
+                        Login
+                    </button>
+                </div> */}
             </div>
             <Modal id="modalRegister" title="Subscribe">
                 <form onSubmit={handleRegister}>

@@ -92,7 +92,8 @@ app.get('/billSale/currentBillInfo', Service.isLogin, async (req, res) => {
                 order: [['id', 'DESC']],
                 include: {
                     model: ProductModel,
-                    attributes: ['name'],
+                    attributes: ['name','barcode'],
+                    order:[['barcode', 'ASC']]
                 }
             }
         })
