@@ -1,2 +1,2 @@
 # PointOfSale_project
-webdev project to make a cloud POS service. 
+webdev project to make a cloud POS service using PERN stack. 
