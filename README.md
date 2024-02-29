@@ -1,2 +1,2 @@
 # PointOfSale_project
-webdev project to make a cloud POS service. *UNFINISHED*
+webdev project to make a cloud POS service. 
